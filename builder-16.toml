@@ -3,7 +3,7 @@ description = "Base builder for Heroku-16 stack, based on ubuntu:16.04 base imag
 [stack]
 id = "heroku-16"
 build-image = "fagiani/pack:16-build"
-run-image = "heroku/pack:16"
+run-image = "fagiani/pack:16"
 
 [lifecycle]
 version = "0.13.1"
