@@ -215,8 +215,6 @@ workflows:
           image_tag: heroku/pack:16-build
           image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:build
           requires:
-            - test-canary-https-invocation-builder-16
-            - test-canary-logs-cli-builder-16
             - test-go-16
             - test-java-16
             - test-node-js-16
@@ -233,8 +231,6 @@ workflows:
           image_tag: heroku/pack:16
           image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:run
           requires:
-            - test-canary-https-invocation-builder-16
-            - test-canary-logs-cli-builder-16
             - test-go-16
             - test-java-16
             - test-node-js-16
