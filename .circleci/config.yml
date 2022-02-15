@@ -83,10 +83,15 @@ jobs:
       stack-tag:
         description: "The tag of the run stack (ex. '20' for heroku/heroku:20)"
         type: string
+      commit:
+        description: "Commit hash to checkout to before running"
+        type: string
+        default: "main"
     docker:
       - image: cimg/base:stable-20.04
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
+      - run: git checkout << parameters.commit >>
       - run: *create-docker-config
       - run: *install-pack
       - setup_remote_docker
@@ -201,12 +206,14 @@ workflows:
           language: Python
           stack-tag: "16"
           name: test-python-16
+          commit: 4ae7a8606aebddf0a2eee749df91e59c7b75f0d4
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
           language: Ruby
           stack-tag: "16"
           name: test-ruby-16
+          commit: b5fead0ea0ec60198ff029f5ba5c69e211b67038
           requires:
             - create-service-builder-16
       - publish-image:
