@@ -91,7 +91,7 @@ jobs:
       - image: cimg/base:stable-20.04
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
-      - run: git checkout << parameters.commit >>
+      - run: cd getting_started && git checkout << parameters.commit >> && cd -
       - run: *create-docker-config
       - run: *install-pack
       - setup_remote_docker
