@@ -87,6 +87,10 @@ jobs:
         description: "Commit hash to checkout to before running"
         type: string
         default: "main"
+      prebuild:
+        description: "Command to run before the pack build starts"
+        type: string
+        default: "echo 'there is no prebuild command defined'"
     docker:
       - image: cimg/base:stable-20.04
     steps:
@@ -101,6 +105,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack config trusted-builders add fagiani/buildpacks:<< parameters.stack-tag >>
+      - run: << parameters.prebuild >>
       - run: pack build pack-getting-started --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
@@ -207,6 +212,7 @@ workflows:
           stack-tag: "16"
           name: test-python-16
           commit: 4ae7a8606aebddf0a2eee749df91e59c7b75f0d4
+          prebuild: "sed -i 's/psycopg2==2.6.1/psycopg2==2.7/g' getting_started/requirements.txt"
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
@@ -214,6 +220,7 @@ workflows:
           stack-tag: "16"
           name: test-ruby-16
           commit: b5fead0ea0ec60198ff029f5ba5c69e211b67038
+          prebuild: "cat getting_started/Gemfile"
           requires:
             - create-service-builder-16
       - publish-image:
