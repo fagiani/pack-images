@@ -18,7 +18,7 @@ version = "0.13.1"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.3.1&name=Ruby&stack=heroku-16"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-ruby-buildpack@sha256:55d8a49633b26f9f50b38b2ba6b2a1e52a1bd2167e7e89e16b72b55fb6fae7ca"
 
 [[buildpacks]]
   id = "heroku/procfile"
