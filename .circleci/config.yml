@@ -101,7 +101,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack config trusted-builders add fagiani/buildpacks:<< parameters.stack-tag >>
-      - run: pack build pack-getting-started --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never
+      - run: pack build pack-getting-started --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
