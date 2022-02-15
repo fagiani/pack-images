@@ -10,23 +10,23 @@ version = "0.13.1"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-buildpack@sha256:098f497001237fb8e138d9f39dc5974eea8d619a429466830f823af41219ea8b"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/java?version=0.3.1&name=Java&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-scala-buildpack@sha256:02a26d364465a567782806effa2afbf4b992a1e15453bb8e62c5da27118dc7e6"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3.1&name=Scala&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/java-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-java-function-buildpack@sha256:172a3818d2a3db4712193f96fd7d477e974a938cfadee7557d2be9f77fb2a994"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/java-function?version=0.3.1&name=JavaFunction&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-ruby-buildpack@sha256:3eeb3773cdbd29d4fb0d578f7781fe8c525de73593480e2740b7143262e5bef5"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.3.1&name=Ruby&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/procfile-cnb:0.6.2"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/procfile?version=0.3.1&name=Procfile&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/python"
@@ -42,11 +42,11 @@ version = "0.13.1"
 
 [[buildpacks]]
   id = "heroku/nodejs"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-buildpack@sha256:345070637ae84a9578e47332e8fb3fdb925ed6f91a90bf971d1523f6c2043f2c"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs?version=0.3.1&name=Node&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/nodejs-function"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-nodejs-function-buildpack@sha256:7f3fbc60b8b4be538b9460666187e9892f779827fa8d73a71080cda9cd5ce5d4"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-function?version=0.3.1&name=NodejsFunction&stack=heroku-16"
 
 [[order]]
   [[order.group]]
