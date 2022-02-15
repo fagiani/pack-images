@@ -12,7 +12,7 @@ This repository is responsible for building and publishing images that enable
   compatible build image based on **heroku:16-build**
 * [fagiani/buildpacks:16](https://hub.docker.com/r/fagiani/buildpacks/tags/) - A
   CNB Builder that features the **heroku-16** stack, heroku buildpacks,
-  ~~and Salesforce Function buildpacks?~~
+  ~~and Salesforce Function buildpacks~~
 
 ## Usage
 
