@@ -17,10 +17,6 @@ version = "0.13.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3.1&name=Scala&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/java-function"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/java-function?version=0.3.1&name=JavaFunction&stack=heroku-16"
-
-[[buildpacks]]
   id = "heroku/ruby"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.3.1&name=Ruby&stack=heroku-16"
 
@@ -43,10 +39,6 @@ version = "0.13.1"
 [[buildpacks]]
   id = "heroku/nodejs"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs?version=0.3.1&name=Node&stack=heroku-16"
-
-[[buildpacks]]
-  id = "heroku/nodejs-function"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-function?version=0.3.1&name=NodejsFunction&stack=heroku-16"
 
 [[order]]
   [[order.group]]
@@ -97,16 +89,6 @@ version = "0.13.1"
     id = "heroku/procfile"
     version = "0.6.2"
     optional = true
-
-[[order]]
-  [[order.group]]
-    id = "heroku/nodejs-function"
-    version = "0.7.1"
-
-[[order]]
-  [[order.group]]
-    id = "heroku/java-function"
-    version = "0.3.27"
 
 [[order]]
   [[order.group]]
