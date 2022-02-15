@@ -17,7 +17,7 @@ version = "0.13.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3.1&name=Scala&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/ruby"
+  id = "heroku/ruby-v227"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby-v227?version=0.3.1&name=Ruby&stack=heroku-16"
 
 [[buildpacks]]
