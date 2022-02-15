@@ -30,7 +30,7 @@ version = "0.13.1"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.3.1&name=PHP&stack=heroku-16"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v192?version=0.3.1&name=PHP&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/go"
