@@ -223,7 +223,7 @@ workflows:
           stack-tag: "16"
           name: test-ruby-16
           commit: b5fead0ea0ec60198ff029f5ba5c69e211b67038
-          prebuild: "cat getting_started/.env/"
+          prebuild: "rm getting_started/.env"
           requires:
             - create-service-builder-16
       - publish-image:
