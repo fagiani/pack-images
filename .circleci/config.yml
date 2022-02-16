@@ -106,10 +106,7 @@ jobs:
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack config trusted-builders add fagiani/buildpacks:<< parameters.stack-tag >>
       - run: << parameters.prebuild >>
-      - run:
-          name: Run pack build
-          no_output_timeout: 30m
-          command: pack build pack-getting-started -e BUNDLE_VERBOSE=1 --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose
+      - run: pack build pack-getting-started -e BUNDLE_VERBOSE=1 --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose --clear-cache
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
