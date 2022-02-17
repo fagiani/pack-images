@@ -17,7 +17,7 @@ version = "0.13.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.3.1&name=Scala&stack=heroku-16"
 
 [[buildpacks]]
-  id = "fagiani/heroku-buildpack-ruby-16"
+  id = "heroku/ruby"
   uri = "https://buildpack-registry.s3.amazonaws.com/buildpacks/fagiani/heroku-buildpack-ruby-16.tgz"
 
 [[buildpacks]]
@@ -42,8 +42,8 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "fagiani/heroku-buildpack-ruby-16"
-    version = "0.3.1"
+    id = "heroku/ruby"
+    version = "0.1.1"
 
   [[order.group]]
     id = "heroku/procfile"
