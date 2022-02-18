@@ -9,8 +9,8 @@ run-image = "fagiani/pack:16"
 version = "0.13.1"
 
 [[buildpacks]]
-  id = "heroku/maven"
-  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-maven-buildpack:0.1.1"
+  id = "heroku/java"
+  uri = "https://buildpack-registry.s3.amazonaws.com/buildpacks/fagiani/heroku-java-buildpack-16.tgz"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -97,5 +97,5 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/maven"
+    id = "heroku/java"
     version = "0.1.1"
