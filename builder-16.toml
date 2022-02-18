@@ -9,8 +9,8 @@ run-image = "fagiani/pack:16"
 version = "0.13.1"
 
 [[buildpacks]]
-  id = "heroku/java"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/java?version=0.3.1&name=Java&stack=heroku-16"
+  id = "heroku/java-v68"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/java-v68?version=0.3.1&name=Java&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -97,5 +97,5 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/java"
+    id = "heroku/java-v68"
     version = "0.3.1"
