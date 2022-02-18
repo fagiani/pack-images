@@ -183,13 +183,13 @@ workflows:
           name: test-go-16
           requires:
             - create-service-builder-16
-      - test-getting-started-guide:
-          language: java
-          stack-tag: "16"
-          name: test-java-16
-          commit: 0bade558646a133347a46475ce53dca91c29a1b4
-          requires:
-            - create-service-builder-16
+#      - test-getting-started-guide:
+#          language: java
+#          stack-tag: "16"
+#          name: test-java-16
+#          commit: 0bade558646a133347a46475ce53dca91c29a1b4
+#          requires:
+#            - create-service-builder-16
       - test-getting-started-guide:
           language: node-js
           stack-tag: "16"
@@ -232,7 +232,7 @@ workflows:
           image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:build
           requires:
             - test-go-16
-            - test-java-16
+#            - test-java-16
             - test-node-js-16
             - test-php-16
             - test-python-16
@@ -248,7 +248,7 @@ workflows:
           image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:run
           requires:
             - test-go-16
-            - test-java-16
+#            - test-java-16
             - test-node-js-16
             - test-php-16
             - test-python-16
