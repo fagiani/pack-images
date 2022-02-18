@@ -130,12 +130,10 @@ jobs:
       - image: cimg/base:stable-20.04
     steps:
       - setup_remote_docker
-      - run: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+      - run: docker login -u fagiani -p $DOCKER_HUB_PASS
       - run:
           name: Log into additional registry
-          command: |
-#            REGISTRY_TOKEN=$(curl -f -X POST $SERVICE_TOKEN_ENDPOINT -d "{\"username\":\"$SERVICE_TOKEN_USER_NAME\", \"password\":\"$SERVICE_TOKEN_PASSWORD\"}" -s --retry 3 | jq -r ".raw_id_token")
-            echo "$REGISTRY_TOKEN" | docker login $REGISTRY_HOST -u "$REGISTRY_USER" --password-stdin
+          command: echo "$REGISTRY_TOKEN" | docker login ghcr.io -u fagiani --password-stdin
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/<< parameters.image_file >>
