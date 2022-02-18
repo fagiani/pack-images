@@ -10,7 +10,7 @@ version = "0.13.1"
 
 [[buildpacks]]
   id = "heroku/java"
-  uri = "https://buildpack-registry.s3.amazonaws.com/buildpacks/fagiani/heroku-java-buildpack-16.tgz"
+  uri = "https://buildpack-registry.s3.amazonaws.com/buildpacks/fagiani/heroku-java-buildpack-1.tgz"
 
 [[buildpacks]]
   id = "heroku/scala"
