@@ -187,6 +187,7 @@ workflows:
           language: java
           stack-tag: "16"
           name: test-java-16
+          commit: 0bade558646a133347a46475ce53dca91c29a1b4
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
