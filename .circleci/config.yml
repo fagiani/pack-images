@@ -206,6 +206,7 @@ workflows:
           language: php
           stack-tag: "16"
           name: test-php-16
+          commit: 9e1f03e1eb46dda9b5073e96cf224d75a4f42398
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
