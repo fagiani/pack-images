@@ -134,7 +134,7 @@ jobs:
       - run:
           name: Log into additional registry
           command: |
-            REGISTRY_TOKEN=$(curl -f -X POST $SERVICE_TOKEN_ENDPOINT -d "{\"username\":\"$SERVICE_TOKEN_USER_NAME\", \"password\":\"$SERVICE_TOKEN_PASSWORD\"}" -s --retry 3 | jq -r ".raw_id_token")
+#            REGISTRY_TOKEN=$(curl -f -X POST $SERVICE_TOKEN_ENDPOINT -d "{\"username\":\"$SERVICE_TOKEN_USER_NAME\", \"password\":\"$SERVICE_TOKEN_PASSWORD\"}" -s --retry 3 | jq -r ".raw_id_token")
             echo "$REGISTRY_TOKEN" | docker login $REGISTRY_HOST -u "$REGISTRY_USER" --password-stdin
       - attach_workspace:
           at: /tmp/workspace
@@ -228,8 +228,8 @@ workflows:
       - publish-image:
           name: publish-16-build-stack
           image_file: pack-16-build.tar
-          image_tag: heroku/pack:16-build
-          image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:build
+          image_tag: fagiani/pack:16-build
+          image_tag_alias: ghcr.io/fagiani/cnb/heroku-16:build
           requires:
             - test-go-16
 #            - test-java-16
@@ -244,8 +244,8 @@ workflows:
       - publish-image:
           name: publish-16-run-stack
           image_file: pack-16-run.tar
-          image_tag: heroku/pack:16
-          image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:run
+          image_tag: fagiani/pack:16
+          image_tag_alias: ghcr.io/fagiani/cnb/heroku-16:run
           requires:
             - test-go-16
 #            - test-java-16
@@ -260,8 +260,8 @@ workflows:
       - publish-image:
           name: publish-service-builder-16
           image_file: buildpacks-16.tar
-          image_tag: heroku/buildpacks:16
-          image_tag_alias: $REGISTRY_HOST/s/fagiani/cnb/heroku-16:builder
+          image_tag: fagiani/buildpacks:16
+          image_tag_alias: ghcr.io/fagiani/cnb/heroku-16:builder
           requires:
             - publish-16-build-stack
             - publish-16-run-stack
