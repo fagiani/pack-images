@@ -10,7 +10,7 @@ version = "0.13.1"
 
 [[buildpacks]]
   id = "heroku/maven"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/maven?version=0.3.1&name=Java&stack=heroku-16"
+  uri = "docker://public.ecr.aws/heroku-buildpacks/heroku-maven-buildpack:0.1.1"
 
 [[buildpacks]]
   id = "heroku/scala"
@@ -98,4 +98,4 @@ version = "0.13.1"
 [[order]]
   [[order.group]]
     id = "heroku/maven"
-    version = "0.3.1"
+    version = "0.1.1"
