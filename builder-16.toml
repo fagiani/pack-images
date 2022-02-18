@@ -29,8 +29,8 @@ version = "0.13.1"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/php-v190"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v190?version=0.3.1&name=PHP&stack=heroku-16"
+  id = "heroku/php-v191"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v191?version=0.3.1&name=PHP&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/go"
@@ -72,7 +72,7 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/php-v190"
+    id = "heroku/php-v191"
     version = "0.3.1"
 
   [[order.group]]
