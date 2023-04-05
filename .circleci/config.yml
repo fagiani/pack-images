@@ -90,15 +90,15 @@ jobs:
         description: "Command to run before the pack build starts"
         type: string
         default: "echo 'there is no prebuild command defined'"
-    docker:
-      - image: cimg/base:stable-20.04
+    machine:
+      image: ubuntu-2004:current
+    resource_class: large
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - run: cd getting_started && git checkout << parameters.commit >> && cd -
       - run: *create-docker-config
       - pack/install-pack:
           version: 0.29.0
-      - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
