@@ -65,7 +65,7 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy if-not-present && break
+              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
