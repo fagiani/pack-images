@@ -6,7 +6,7 @@ build-image = "fagiani/pack:16-build"
 run-image = "fagiani/pack:16"
 
 [lifecycle]
-version = "0.14.0"
+version = "0.16.0"
 
 [[buildpacks]]
   id = "heroku/java"
