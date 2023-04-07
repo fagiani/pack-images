@@ -72,7 +72,7 @@ version = "0.16.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/php-v188"
+    id = "heroku/php-v190"
     version = "0.3.1"
 
   [[order.group]]
@@ -92,7 +92,7 @@ version = "0.16.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs-v189"
+    id = "heroku/nodejs-v188"
     version = "0.3.1"
 
 [[order]]
