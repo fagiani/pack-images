@@ -29,8 +29,8 @@ version = "0.16.0"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/php-v189"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v189?version=0.3.1&name=PHP&stack=heroku-16"
+  id = "heroku/php-v190"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v190?version=0.3.1&name=PHP&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/go"
