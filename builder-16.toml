@@ -37,8 +37,8 @@ version = "0.16.0"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/nodejs-v193"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-v193?version=0.3.1&name=Node&stack=heroku-16"
+  id = "heroku/nodejs-v192"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-v192?version=0.3.1&name=Node&stack=heroku-16"
 
 [[order]]
   [[order.group]]
@@ -92,7 +92,7 @@ version = "0.16.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs-v193"
+    id = "heroku/nodejs-v192"
     version = "0.3.1"
 
 [[order]]
