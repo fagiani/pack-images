@@ -38,7 +38,7 @@ version = "0.16.0"
 
 [[buildpacks]]
   id = "heroku/nodejs-v197"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-v197?version=0.3.1&name=Node&stack=heroku-16"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-v196?version=0.3.1&name=Node&stack=heroku-16"
 
 [[order]]
   [[order.group]]
@@ -92,7 +92,7 @@ version = "0.16.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs-v197"
+    id = "heroku/nodejs-v196"
     version = "0.3.1"
 
 [[order]]
