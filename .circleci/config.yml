@@ -212,7 +212,7 @@ workflows:
           stack-tag: "16"
           name: test-python-16
           commit: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
-          pack-env: "BUILDPACK_S3_BASE_URL=https://heroku-buildpack-python.s3.us-east-1.amazonaws.com/archive"
+          pack-env: "BUILDPACK_S3_BASE_URL=https://heroku-legacy-redirects.vercel.app"
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
