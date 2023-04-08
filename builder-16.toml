@@ -25,8 +25,8 @@ version = "0.16.0"
   uri = "docker://docker.io/heroku/procfile-cnb:0.7.1"
 
 [[buildpacks]]
-  id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python&stack=heroku-16"
+  id = "heroku/python-v196"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python-v196?version=0.3.1&name=Python&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/php-v190"
@@ -52,7 +52,7 @@ version = "0.16.0"
 
 [[order]]
   [[order.group]]
-    id = "heroku/python"
+    id = "heroku/python-v196"
     version = "0.3.1"
 
   [[order.group]]
