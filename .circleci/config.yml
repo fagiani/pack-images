@@ -173,6 +173,7 @@ workflows:
           language: go
           stack-tag: "16"
           name: test-go-16
+          commit: b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b
           requires:
             - create-service-builder-16
 #      - test-getting-started-guide:
