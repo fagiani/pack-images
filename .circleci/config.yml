@@ -186,6 +186,7 @@ workflows:
           language: node-js
           stack-tag: "16"
           name: test-node-js-16
+          commit: 15b9ad2f2fb7e8cc67bb29cc469171d201688f59
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
