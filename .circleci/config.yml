@@ -207,7 +207,7 @@ workflows:
           language: Python
           stack-tag: "16"
           name: test-python-16
-          commit: 4ae7a8606aebddf0a2eee749df91e59c7b75f0d4
+          commit: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
           prebuild: "sed -i 's/psycopg2==2.6.1/psycopg2==2.7/g' getting_started/requirements.txt"
           requires:
             - create-service-builder-16
