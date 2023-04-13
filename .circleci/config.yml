@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  pack: buildpacks/pack@0.2.4
 jobs:
   create-image:
     parameters:
@@ -45,16 +47,8 @@ jobs:
       - image: cimg/base:stable-20.04
     steps:
       - checkout
-      - run: &create-docker-config
-          name: "Create docker config"
-          command: |
-            mkdir -p ~/.docker
-            echo '{}' > ~/.docker/config.json
-      - run: &install-pack
-          name: "Install pack"
-          command: |
-            mkdir -p ~/bin
-            curl -sSfL https://github.com/buildpacks/pack/releases/download/v0.23.0/pack-v0.23.0-linux.tgz | tar -xzC ~/bin pack
+      - pack/install-pack:
+          version: 0.29.0
       - attach_workspace:
           at: /tmp/workspace
       - setup_remote_docker
@@ -66,7 +60,7 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy if-not-present && break
+              pack builder create << parameters.image_tag >> --config << parameters.builder_toml >> --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
@@ -91,14 +85,18 @@ jobs:
         description: "Command to run before the pack build starts"
         type: string
         default: "echo 'there is no prebuild command defined'"
-    docker:
-      - image: cimg/base:stable-20.04
+      pack-env:
+        description: "Set a custom pack ENV for build"
+        type: string
+        default: "MY_ENV=value"
+    machine:
+      image: ubuntu-2004:current
+    resource_class: large
     steps:
       - run: git clone https://github.com/heroku/<< parameters.language >>-getting-started.git getting_started
       - run: cd getting_started && git checkout << parameters.commit >> && cd -
-      - run: *create-docker-config
-      - run: *install-pack
-      - setup_remote_docker
+      - pack/install-pack:
+          version: 0.29.0
       - attach_workspace:
           at: /tmp/workspace
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
@@ -106,7 +104,7 @@ jobs:
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
       - run: pack config trusted-builders add fagiani/buildpacks:<< parameters.stack-tag >>
       - run: << parameters.prebuild >>
-      - run: pack build pack-getting-started -e BUNDLE_VERBOSE=1 --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose --clear-cache
+      - run: pack build pack-getting-started -e << parameters.pack-env >> -e BUNDLE_VERBOSE=1 --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose --clear-cache
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
@@ -179,6 +177,7 @@ workflows:
           language: go
           stack-tag: "16"
           name: test-go-16
+          commit: b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b
           requires:
             - create-service-builder-16
 #      - test-getting-started-guide:
@@ -192,6 +191,7 @@ workflows:
           language: node-js
           stack-tag: "16"
           name: test-node-js-16
+          commit: 15b9ad2f2fb7e8cc67bb29cc469171d201688f59
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
@@ -211,8 +211,8 @@ workflows:
           language: Python
           stack-tag: "16"
           name: test-python-16
-          commit: 4ae7a8606aebddf0a2eee749df91e59c7b75f0d4
-          prebuild: "sed -i 's/psycopg2==2.6.1/psycopg2==2.7/g' getting_started/requirements.txt"
+          commit: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
+          pack-env: "BUILDPACK_S3_BASE_URL=https://heroku-legacy-redirects.vercel.app"
           requires:
             - create-service-builder-16
       - test-getting-started-guide:
@@ -220,7 +220,7 @@ workflows:
           stack-tag: "16"
           name: test-ruby-16
           commit: b5fead0ea0ec60198ff029f5ba5c69e211b67038
-          prebuild: "rm getting_started/.env && ls -lsa getting_started/"
+          prebuild: "rm getting_started/.env"
           requires:
             - create-service-builder-16
       - publish-image:

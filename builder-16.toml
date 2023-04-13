@@ -6,7 +6,7 @@ build-image = "fagiani/pack:16-build"
 run-image = "fagiani/pack:16"
 
 [lifecycle]
-version = "0.13.1"
+version = "0.16.0"
 
 [[buildpacks]]
   id = "heroku/java"
@@ -25,20 +25,20 @@ version = "0.13.1"
   uri = "docker://docker.io/heroku/procfile-cnb:0.7.1"
 
 [[buildpacks]]
-  id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.3.1&name=Python&stack=heroku-16"
+  id = "heroku/python-v196"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python-v196?version=0.3.1&name=Python&stack=heroku-16"
 
 [[buildpacks]]
   id = "heroku/php-v190"
   uri = "https://cnb-shim.herokuapp.com/v1/heroku/php-v190?version=0.3.1&name=PHP&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/go"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.3.1&name=Go&stack=heroku-16"
+  id = "heroku/go-v153"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go-v153?version=0.3.1&name=Go&stack=heroku-16"
 
 [[buildpacks]]
-  id = "heroku/nodejs"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs?version=0.3.1&name=Node&stack=heroku-16"
+  id = "heroku/nodejs-v184"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/nodejs-v184?version=0.3.1&name=Node&stack=heroku-16"
 
 [[order]]
   [[order.group]]
@@ -52,7 +52,7 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/python"
+    id = "heroku/python-v196"
     version = "0.3.1"
 
   [[order.group]]
@@ -82,7 +82,7 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/go"
+    id = "heroku/go-v153"
     version = "0.3.1"
 
   [[order.group]]
@@ -92,7 +92,7 @@ version = "0.13.1"
 
 [[order]]
   [[order.group]]
-    id = "heroku/nodejs"
+    id = "heroku/nodejs-v184"
     version = "0.3.1"
 
 [[order]]
