@@ -94,7 +94,12 @@ version = "0.16.0"
   [[order.group]]
     id = "heroku/nodejs-v184"
     version = "0.3.1"
-
+    
+  [[order.group]]
+    id = "heroku/procfile"
+    version = "0.7.1"
+    optional = true
+    
 [[order]]
   [[order.group]]
     id = "heroku/java"
