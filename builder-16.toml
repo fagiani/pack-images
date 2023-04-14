@@ -22,7 +22,7 @@ version = "0.16.0"
 
 [[buildpacks]]
   id = "heroku/procfile"
-  uri = "docker://docker.io/heroku/procfile-cnb:0.7.1"
+  uri = "docker://ghcr.io/fagiani/cnb/procfile:0.7.1"
 
 [[buildpacks]]
   id = "heroku/python-v196"
