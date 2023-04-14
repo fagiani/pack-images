@@ -102,9 +102,9 @@ jobs:
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-build.tar
       - run: docker load < /tmp/workspace/pack-<< parameters.stack-tag >>-run.tar
       - run: docker load < /tmp/workspace/buildpacks-<< parameters.stack-tag >>.tar
-      - run: pack config trusted-builders add fagiani/buildpacks:<< parameters.stack-tag >>
+      - run: pack config trusted-builders add ghcr.io/fagiani/cnb/heroku-<< parameters.stack-tag >>:builder
       - run: << parameters.prebuild >>
-      - run: pack build pack-getting-started -e << parameters.pack-env >> -e BUNDLE_VERBOSE=1 --path getting_started --builder fagiani/buildpacks:<< parameters.stack-tag >> --pull-policy never --verbose --clear-cache
+      - run: pack build pack-getting-started -e << parameters.pack-env >> -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-<< parameters.stack-tag >>:builder --pull-policy never --verbose --clear-cache
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
@@ -156,18 +156,18 @@ workflows:
           dockerfile: Dockerfile.build
           base_image: heroku/heroku:16-build
           stack_name: heroku-16
-          image_tag: fagiani/pack:16-build
+          image_tag: ghcr.io/fagiani/cnb/heroku-16:build
           image_file: pack-16-build.tar
       - create-image:
           name: create-16-run-image
           dockerfile: Dockerfile.run
           base_image: heroku/heroku:16
           stack_name: heroku-16
-          image_tag: fagiani/pack:16
+          image_tag: ghcr.io/fagiani/cnb/heroku-16:run
           image_file: pack-16-run.tar
       - create-pack-builder:
           name: create-service-builder-16
-          image_tag: fagiani/buildpacks:16
+          image_tag: ghcr.io/fagiani/cnb/heroku-16:builder
           image_file: buildpacks-16.tar
           builder_toml: builder-16.toml
           requires:
@@ -226,8 +226,8 @@ workflows:
       - publish-image:
           name: publish-16-build-stack
           image_file: pack-16-build.tar
-          image_tag: fagiani/pack:16-build
-          image_tag_alias: ghcr.io/fagiani/cnb/heroku-16:build
+          image_tag: ghcr.io/fagiani/cnb/heroku-16:build
+          image_tag_alias: fagiani/pack:16-build
           requires:
             - test-go-16
 #            - test-java-16
@@ -242,8 +242,8 @@ workflows:
       - publish-image:
           name: publish-16-run-stack
           image_file: pack-16-run.tar
-          image_tag: fagiani/pack:16
-          image_tag_alias: ghcr.io/fagiani/cnb/heroku-16:run
+          image_tag: ghcr.io/fagiani/cnb/heroku-16:run
+          image_tag_alias: fagiani/pack:16
           requires:
             - test-go-16
 #            - test-java-16
@@ -258,8 +258,8 @@ workflows:
       - publish-image:
           name: publish-service-builder-16
           image_file: buildpacks-16.tar
-          image_tag: fagiani/buildpacks:16
-          image_tag_alias: ghcr.io/fagiani/cnb/heroku-16:builder
+          image_tag: ghcr.io/fagiani/cnb/heroku-16:builder
+          image_tag_alias: fagiani/buildpacks:16
           requires:
             - publish-16-build-stack
             - publish-16-run-stack
