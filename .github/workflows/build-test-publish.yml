@@ -40,15 +40,7 @@ jobs:
       matrix:
         builder: ["buildpacks-18"]
         language: ["go", "gradle", "java", "node-js", "php", "python", "ruby", "scala", "typescript"]
-        include:
-          - builder: buildpacks-18
-            language: clojure
-        exclude:
-          - builder: buildpacks-18
-            language: gradle
-          - builder: buildpacks-18
-            language: php
-          - builder: buildpacks-18
+    steps:
       - uses: actions/checkout@v3
         with:
           ref: main
