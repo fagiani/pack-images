@@ -50,7 +50,7 @@ jobs:
         run: sed -i 's/18.x || 16.x/16.x/g' package.json
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Setup builder cache
-        uses: actions/buildpacks-18
+        uses: actions/cache@v3
         with:
           key: ${{ github.run_id}}-${{ matrix.builder }}
           path: ${{ matrix.builder }}.tar.zst
