@@ -180,13 +180,13 @@ workflows:
           commit: b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b
           requires:
             - create-service-builder-16
-#      - test-getting-started-guide:
-#          language: java
-#          stack-tag: "16"
-#          name: test-java-16
-#          commit: 0bade558646a133347a46475ce53dca91c29a1b4
-#          requires:
-#            - create-service-builder-16
+      #      - test-getting-started-guide:
+      #          language: java
+      #          stack-tag: "16"
+      #          name: test-java-16
+      #          commit: 0bade558646a133347a46475ce53dca91c29a1b4
+      #          requires:
+      #            - create-service-builder-16
       - test-getting-started-guide:
           language: node-js
           stack-tag: "16"
@@ -230,7 +230,7 @@ workflows:
           image_tag_alias: fagiani/pack:16-build
           requires:
             - test-go-16
-#            - test-java-16
+            #            - test-java-16
             - test-node-js-16
             - test-php-16
             - test-python-16
@@ -246,7 +246,7 @@ workflows:
           image_tag_alias: fagiani/pack:16
           requires:
             - test-go-16
-#            - test-java-16
+            #            - test-java-16
             - test-node-js-16
             - test-php-16
             - test-python-16
