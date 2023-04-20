@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        builder: ["buildpacks-18"]
+        builder: ["18"]
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
@@ -27,10 +27,10 @@ jobs:
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
-          key: ${{ github.run_id}}-${{ matrix.builder }}
-          path: ${{ matrix.builder }}.tar.zst
-      - run: pack builder create ${{ matrix.builder }} --config ${{ matrix.builder }}/builder.toml --pull-policy always
-      - run: docker save ${{ matrix.builder }} | zstd > ${{ matrix.builder }}.tar.zst
+          key: ${{ github.run_id}}-buildpacks-${{ matrix.builder }}
+          path: buildpacks-${{ matrix.builder }}.tar.zst
+      - run: pack builder create buildpacks-${{ matrix.builder }} --config builder-${{ matrix.builder }}.toml --pull-policy always
+      - run: docker save buildpacks-${{ matrix.builder }} | zstd > buildpacks-${{ matrix.builder }}.tar.zst
 
   test-guides:
     runs-on: ubuntu-22.04
