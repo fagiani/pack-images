@@ -84,9 +84,6 @@ jobs:
       matrix:
         builder: ["buildpacks-18"]
         example: ["java-function", "javascript-function", "typescript-function"]
-        include:
-          - builder: buildpacks-18
-            example: python-function
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
