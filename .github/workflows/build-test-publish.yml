@@ -114,7 +114,7 @@ jobs:
           fi
   publish:
     runs-on: ubuntu-22.04
-    if: success() && github.ref == 'refs/heads/main'
+    if: success() && github.ref == 'refs/heads/master'
     needs:
       - test-guides
       - test-examples
