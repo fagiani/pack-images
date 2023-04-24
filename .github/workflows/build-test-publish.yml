@@ -3,7 +3,7 @@ name: Build, Test, Publish
 on:
   pull_request:
   push:
-    branches: ["builder-18"]
+    branches: ["builder-18", master]
   schedule:
     - cron: '0 0 * * 1-5'
   workflow_dispatch:
