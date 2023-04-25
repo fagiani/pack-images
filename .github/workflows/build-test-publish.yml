@@ -33,8 +33,7 @@ jobs:
       - run: docker save buildpacks-${{ matrix.builder }} | zstd > buildpacks-${{ matrix.builder }}.tar.zst
 
   test-guides:
-    runs-on: ubuntu-22.04
-    needs: create
+    ${{ matrix.tag_alias }}needs: create
     strategy:
       fail-fast: false
       matrix:
@@ -140,7 +139,7 @@ jobs:
           if [[ -n "${{ matrix.tag_private }}" ]]; then
             export TAG_PRIVATE="${{ secrets.REGISTRY_HOST }}/${{ secrets.REGISTRY_USER }}/${{ matrix.tag_private }}"
           fi
-          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }} ${{ matrix.tag_alias }})
+          export TAGS=($TAG_PRIVATE ${{ matrix.tag_public }})
           for tag in ${TAGS[@]}; do
             echo "Pushing $tag"
             docker tag ${{ matrix.builder }} $tag
