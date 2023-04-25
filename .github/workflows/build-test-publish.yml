@@ -33,7 +33,8 @@ jobs:
       - run: docker save buildpacks-${{ matrix.builder }} | zstd > buildpacks-${{ matrix.builder }}.tar.zst
 
   test-guides:
-    ${{ matrix.tag_alias }}needs: create
+    runs-on: ubuntu-22.04
+    needs: create
     strategy:
       fail-fast: false
       matrix:
