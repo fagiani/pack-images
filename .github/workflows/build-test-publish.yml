@@ -29,7 +29,7 @@ jobs:
         with:
           key: ${{ github.run_id}}-buildpacks-${{ matrix.builder }}
           path: buildpacks-${{ matrix.builder }}.tar.zst
-      - run: pack builder create buildpacks-${{ matrix.builder }} --config builder-${{ matrix.builder }}.toml --pull-policy always
+      - run: pack builder create buildpacks-${{ matrix.builder }} --config builder-${{ matrix.builder }}.toml --pull-policy always --verbose
       - run: docker save buildpacks-${{ matrix.builder }} | zstd > buildpacks-${{ matrix.builder }}.tar.zst
 
   test-guides:
