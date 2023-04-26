@@ -123,7 +123,7 @@ jobs:
       matrix:
         include:
           - builder: buildpacks-18
-            tag_public: heroku/buildpacks:18
+            tag_public: fagiani/buildpacks:18
             tag_private: heroku-18:builder
     steps:
       - name: Setup builder cache
