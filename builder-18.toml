@@ -2,7 +2,7 @@ description = "Base builder for Heroku-18 stack, based on ubuntu:18.04 base imag
 
 [stack]
 id = "heroku-18"
-build-image = "ghcr.io/fagiani/heroku-18:build"
+build-image = "ghcr.io/fagiani/heroku-18:builder"
 run-image = "ghcr.io/fagiani/cnb/heroku:18"
 
 [lifecycle]
