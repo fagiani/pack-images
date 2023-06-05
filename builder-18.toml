@@ -22,7 +22,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/gradle"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/ruby"
