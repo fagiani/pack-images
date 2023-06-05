@@ -14,7 +14,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/java-function"
