@@ -100,7 +100,7 @@ jobs:
         env:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
-      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never
+      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy if-not-present
       - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
         run: |
