@@ -3,7 +3,7 @@ description = "Base builder for Heroku-18 stack, based on ubuntu:18.04 base imag
 [stack]
 id = "heroku-18"
 build-image = "ghcr.io/fagiani/heroku-18:builder"
-run-image = "ghcr.io/fagiani/heroku-18:run"
+run-image = "ghcr.io/fagiani/cnb/heroku:18"
 
 [lifecycle]
 version = "0.16.1"
@@ -14,7 +14,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/scala"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/scala?version=0.0.0&name=Scala&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/java-function"
@@ -22,11 +22,11 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/gradle"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/gradle?version=0.0.0&name=Gradle&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/ruby"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.0.0&name=Ruby"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/ruby?version=0.0.0&name=Ruby&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/procfile"
@@ -34,15 +34,15 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.0.0&name=Python"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.0.0&name=Python&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/php"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.0.0&name=PHP"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/php?version=0.0.0&name=PHP&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/go"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/go?version=0.0.0&name=Go&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/nodejs"
