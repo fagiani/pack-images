@@ -29,7 +29,7 @@ jobs:
         with:
           key: ${{ github.run_id}}-buildpacks-${{ matrix.builder }}
           path: buildpacks-${{ matrix.builder }}.tar.zst
-      - run: pack builder create buildpacks-${{ matrix.builder }} --config builder-${{ matrix.builder }}.toml --pull-policy always
+      - run: pack builder create buildpacks-${{ matrix.builder }} --config builder-${{ matrix.builder }}.toml --pull-policy if-not-present --verbose
       - run: docker save buildpacks-${{ matrix.builder }} | zstd > buildpacks-${{ matrix.builder }}.tar.zst
 
   test-guides:
@@ -63,7 +63,7 @@ jobs:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
       - name: Build getting started guide image
-        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy never
+        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy if-not-present
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
@@ -100,7 +100,7 @@ jobs:
         env:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
-      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy never
+      - run: pack build example-function --path examples/${{ matrix.example }} --builder ${{ matrix.builder }} --pull-policy if-not-present
       - run: docker run --name example-function --detach -p 8080:8080 --env PORT=8080 example-function
       - name: Test example function web server response
         run: |
