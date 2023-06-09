@@ -34,7 +34,7 @@ version = "0.16.1"
 
 [[buildpacks]]
   id = "heroku/python"
-  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=3.11.3&name=Python&stack=heroku-18"
+  uri = "https://cnb-shim.herokuapp.com/v1/heroku/python?version=0.0.0&name=Python&stack=heroku-18"
 
 [[buildpacks]]
   id = "heroku/php"
