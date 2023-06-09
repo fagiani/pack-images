@@ -49,6 +49,10 @@ jobs:
         if: matrix.language == 'node-js' && matrix.builder == 'buildpacks-18'
         run: sed -i 's/18.x || 16.x/16.x/g' package.json
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - name: Modify runtime.txt (fix for Heroku-18 stack)
+        if: matrix.language == 'python' && matrix.builder == 'buildpacks-18'
+        run: echo "python-3.10.11" > runtime.txt
+      - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Setup builder cache
         uses: actions/cache@v3
         with:
@@ -63,7 +67,7 @@ jobs:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
       - name: Build getting started guide image
-        run: echo "python-3.10.11" > runtime.txt | pack build getting-started --builder ${{ matrix.builder }} --pull-policy if-not-present
+        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy if-not-present
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
