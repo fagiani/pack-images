@@ -63,7 +63,7 @@ jobs:
           BUILDER: ${{ matrix.builder }}
         run: docker pull heroku/heroku:${BUILDER##*-}-cnb
       - name: Build getting started guide image
-        run: pack build getting-started --builder ${{ matrix.builder }} --pull-policy if-not-present
+        run: echo "python-3.10.11" > runtime.txt | pack build getting-started --builder ${{ matrix.builder }} --pull-policy if-not-present
       - name: Start getting started guide image
         run: docker run --name getting-started --detach -p 8080:8080 --env PORT=8080 getting-started
       - name: Test getting started web server response
