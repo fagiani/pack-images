@@ -25,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - run: cd /tmp/workspace
       - run: docker build -f $dockerfile --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $image_tag .
       - run: docker save $image_tag > /tmp/workspace/$image_file
   create-pack-builder:
@@ -38,6 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - run: cd /tmp/workspace
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
       - name: Create builder with retries
