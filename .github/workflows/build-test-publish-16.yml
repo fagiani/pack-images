@@ -26,9 +26,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Building and saving in Docker
-        uses: actions/cache@v3
+        uses: actions/upload-artifact@v3
         with:
-          key: Workspace
+          name: Workspace
           path: /tmp/workspace
       - run: mkdir /tmp/workspace
       - run: docker build -f $dockerfile --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $image_tag .
@@ -45,9 +45,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Loading in Docker
-        uses: actions/cache@v3
+        uses: actions/upload-artifact@v3
         with:
-          key: Workspace
+          name: Workspace
           path: /tmp/workspace
       - run: ls /tmp/workspace | docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
@@ -75,9 +75,9 @@ jobs:
         language: ["java", "go", "node-js", "php", "python", "ruby", "typescript"]
     steps:
       - name: Testing guides for each language
-        uses: actions/cache@v3
+        uses: actions/download-artifact@v3
         with:
-          key: Workspace
+          name: Workspace
           path: /tmp/workspace
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
       - run: cd getting_started && git checkout $GITHUB_SHA && cd -
@@ -103,9 +103,9 @@ jobs:
       fail-fast: false
     steps:
       - name: Docker steps to push the image
-        uses: actions/cache@v3
+        uses: actions/download-artifact@v3
         with:
-          key: Workspace
+          name: Workspace
           path: /tmp/workspace
       - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin 
       - name: Log into additional registry
