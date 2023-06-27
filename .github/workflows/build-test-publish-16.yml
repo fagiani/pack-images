@@ -49,8 +49,10 @@ jobs:
         with:
           name: Workspace
           path: /tmp/workspace
-      - run: sudo docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
+      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
+        working-directory: path
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
+        working-directory: path
       - name: Create builder with retries
         run: |
             n=1
