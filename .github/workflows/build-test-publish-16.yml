@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - name: Loading in Docker
-        uses: actions/upload-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: Workspace
           path: /tmp/workspace
