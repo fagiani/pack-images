@@ -12,29 +12,27 @@ permissions:
   contents: read
 
 jobs:
-  create-image-and-pack-builder:
+  create:
     runs-on: ubuntu-22.04
     env:
       dockerfile: Dockerfile.build
       stack_name: heroku-16
       base_image: heroku/heroku:16-build
       build_tag: ghcr.io/fagiani/cnb/heroku-16:build
-      builder_tag: ghcr.io/fagiani/cnb/heroku-16:build
-      builder.toml: builder-16.toml
+      builder_tag: ghcr.io/fagiani/cnb/heroku-16:builder
       image_file: pack-16-build.tar
     strategy:
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
-      - name: Building and saving in Docker
       - run: mkdir /tmp/workspace
       - run: docker build -f $dockerfile --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $build_tag .
       - run: docker save $build_tag > /tmp/workspace/$image_file
       - run: sudo ls /tmp/workspace/
       - run: sudo pwd
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
-      - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
+      #- run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
       - name: Create builder with retries
         run: |
             n=1
@@ -44,11 +42,11 @@ jobs:
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save $builder_tag > /tmp/workspace/$image_file
+      - run: docker save $builder_tag > /tmp/workspace/$builder_file
 
   test-guides:
     runs-on: ubuntu-22.04
-    needs: [create-image-and-pack-builder]
+    needs: [create]
     env:
       stack_tag: 16
       pack_env: BUILDPACK_S3_BASE_URL=https://heroku-legacy-redirects.vercel.app
