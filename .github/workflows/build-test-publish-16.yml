@@ -33,7 +33,7 @@ jobs:
       - run: mkdir /tmp/workspace
       - run: docker build -f $dockerfile --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $image_tag .
       - run: docker save $image_tag > /tmp/workspace/$image_file
-      - run: ls workspace/
+      - run: sudo ls /tmp/workspace/
   create-pack-builder:
     needs: create-image
     runs-on: ubuntu-22.04
