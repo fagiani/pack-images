@@ -33,6 +33,7 @@ jobs:
       - run: mkdir /tmp/workspace
       - run: docker build -f $dockerfile --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $image_tag .
       - run: docker save $image_tag > /tmp/workspace/$image_file
+      - run: ls workspace/
   create-pack-builder:
     needs: create-image
     runs-on: ubuntu-22.04
@@ -45,15 +46,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
-      - name: Loading in Docker
-        uses: actions/download-artifact@v3
-        with:
-          name: Workspace
-          path: /tmp/workspace
-      - run: docker load < $(ls | head -1)
-        working-directory: /tmp/workspace/pack-*-build.tar
-      - run: docker load < $(ls | head -1)
-        working-directory: /tmp/workspace/pack-*-run.tar
+      - uses: actions/download-artifact@v3
+      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
+      - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
       - name: Create builder with retries
         run: |
             n=1
@@ -79,9 +74,6 @@ jobs:
     steps:
       - name: Testing guides for each language
         uses: actions/download-artifact@v3
-        with:
-          name: Workspace
-          path: /tmp/workspace
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
       - run: cd getting_started && git checkout $GITHUB_SHA && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
