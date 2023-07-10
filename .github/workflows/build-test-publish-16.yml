@@ -42,7 +42,7 @@ jobs:
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save $builder_tag > /tmp/workspace/$builder_file
+      - run: docker save $builder_tag > /tmp/workspace/$image_file
 
   test-guides:
     runs-on: ubuntu-22.04
