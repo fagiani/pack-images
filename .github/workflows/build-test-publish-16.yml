@@ -15,21 +15,26 @@ jobs:
   create:
     runs-on: ubuntu-22.04
     env:
+      dockerfile_build: Dockerfile.build
+      dockerfile_run: Dockerfile.run
+      build_tag: ghcr.io/fagiani/cnb/heroku-16:build
+      builder_tag: ghcr.io/fagiani/cnb/heroku-16:builder
+      build_file: pack-16-build.tar
+      run_file: pack-16-run.tar
+      image_file: buildpacks-16.tar
       stack_name: heroku-16
       base_image: heroku/heroku:16-build
       builder: builder-16
     strategy:
       fail-fast: false
-      matrix:
-        dockerfile: ["Dockerfile.build", "Dockerfile.run"]
-        build_tag: ["ghcr.io/fagiani/cnb/heroku-16:build", "ghcr.io/fagiani/cnb/heroku-16:builder"]
-        image_file: ["pack-16-build.tar", pack-16-run.tar]
     steps:
       - uses: actions/checkout@v3
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - run: mkdir /tmp/workspace
-      - run: docker build -f ${{ matrix.dockerfile }} --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t ${{ matrix.build_tag }} .
-      - run: docker save ${{ matrix.build_tag }} > /tmp/workspace/${{ matrix.image_file }}
+      - run: docker build -f $dockerfile_build --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $build_tag .
+      - run: docker build -f $dockerfile_run --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $builder_tag .
+      - run: docker save $build_tag > /tmp/workspace/$build_file
+      - run: docker save $builder_tag > /tmp/workspace/$run_file
       - run: sudo ls /tmp/workspace/
       - run: sudo pwd
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
@@ -39,11 +44,11 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create ${{ matrix.build_tag }} --config $builder.toml --pull-policy always && break
+              pack builder create $builder_tag --config $builder.toml --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save ${{ matrix.build_tag }} > /tmp/workspace/${{ matrix.image_file }}
+      - run: docker save $builder_tag > /tmp/workspace/$image_file
 
   test-guides:
     runs-on: ubuntu-22.04
