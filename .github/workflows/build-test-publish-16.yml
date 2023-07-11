@@ -64,8 +64,10 @@ jobs:
         builder: ["buildpacks-16"]
         language: ["java", "go", "node-js", "php", "python", "ruby", "typescript"]
     steps:
-      - name: Testing guides for each language
-        uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: entrypoint
+          path: /tmp/workspace/pack-*.tar
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
       - run: cd getting_started && git checkout main && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
