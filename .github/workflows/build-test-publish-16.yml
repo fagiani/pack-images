@@ -37,10 +37,6 @@ jobs:
       - run: docker save $builder_tag > /tmp/workspace/$run_file
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
-      - uses: actions/upload-artifact@v3
-        with:
-          name: entrypoint
-          path: /tmp/workspace/
       - name: Create builder with retries
         run: |
             n=1
@@ -51,6 +47,10 @@ jobs:
               sleep $(($n * 2))
             done
       - run: docker save $builder_tag > /tmp/workspace/$image_file
+      - uses: actions/upload-artifact@v3
+        with:
+          name: entrypoint
+          path: /tmp/workspace/
 
   test-guides:
     runs-on: ubuntu-22.04
@@ -71,8 +71,6 @@ jobs:
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
       - run: cd getting_started && git checkout main && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
-      - run: sudo ls /tmp/workspace/
-      - run: sudo pwd
       - run: docker load < /tmp/workspace/pack-$stack_tag-build.tar
       - run: docker load < /tmp/workspace/pack-$stack_tag-run.tar
       - run: docker load < /tmp/workspace/${{ matrix.builder }}-build.tar
