@@ -40,7 +40,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: entrypoint
-          path: /tmp/workspace/pack-*.tar
+          path: /tmp/workspace/
       - name: Create builder with retries
         run: |
             n=1
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: entrypoint
-          path: /tmp/workspace/pack-*.tar
+          path: /tmp/workspace/
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
       - run: cd getting_started && git checkout main && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
