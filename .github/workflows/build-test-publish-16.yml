@@ -58,7 +58,6 @@ jobs:
     env:
       stack_tag: 16
       pack_env: BUILDPACK_S3_BASE_URL=https://heroku-legacy-redirects.vercel.app
-      commit: b4149a9c89a01d4a962e9a42951f2072958b6466
     strategy:
       fail-fast: false
       matrix:
@@ -68,7 +67,7 @@ jobs:
       - name: Testing guides for each language
         uses: actions/download-artifact@v3
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
-      - run: cd getting_started && git checkout $commit && cd -
+      - run: cd getting_started && git checkout main && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - run: sudo ls /tmp/workspace/
       - run: sudo pwd
