@@ -75,7 +75,7 @@ jobs:
       - run: docker load < /tmp/workspace/pack-$stack_tag-run.tar
       - run: docker load < /tmp/workspace/${{ matrix.builder }}.tar
       - run: pack config trusted-builders add ghcr.io/fagiani/cnb/heroku-$stack_tag:builder
-      - run: pack build pack-getting-started -e $pack-env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
+      - run: pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
       - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
       - run: sleep 5
       - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
