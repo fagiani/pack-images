@@ -83,8 +83,12 @@ jobs:
   publish:
     runs-on: ubuntu-22.04
     env:
-      image_file: pack-16-build.tar
-      image_tag: ghcr.io/fagiani/cnb/heroku-16:build
+      build_file: pack-16-build.tar
+      run_file: pack-16-run.tar
+      build_tag: ghcr.io/fagiani/cnb/heroku-16:build
+      run_tag: ghcr.io/fagiani/cnb/heroku-16:run
+      build_tag_alias: fagiani/pack:16-build
+      run_tag_alias: fagiani/pack:16
     if: success() && github.ref == 'refs/heads/master'
     needs:
       - test-guides
@@ -99,7 +103,10 @@ jobs:
       - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin 
       - name: Log into additional registry
         run: echo "${{ secrets.REGISTRY_TOKEN }}" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
-      - run: docker load < /tmp/workspace/$image_file
-      - run: docker push $image_tag
+      - run: docker load < /tmp/workspace/$build_file
+      - run: docker load < /tmp/workspace/$run_file
+      - run: docker push $build_tag
+      - run: docker push $run_tag
       - name: Tag builder and push to registries
-        run: docker tag $image_tag $image_tag_alias | docker push $image_tag_alias
+        run: docker tag $build_tag $build_tag_alias | docker push $build_tag_alias
+        run: docker tag $run_tag $run_tag_alias | docker push $run_tag_alias
