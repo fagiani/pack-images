@@ -107,6 +107,5 @@ jobs:
       - run: docker load < /tmp/workspace/$run_file
       - run: docker push $build_tag
       - run: docker push $run_tag
-      - name: Tag builder and push to registries
-        run: docker tag $build_tag $build_tag_alias | docker push $build_tag_alias
-        run: docker tag $run_tag $run_tag_alias | docker push $run_tag_alias
+      - run: docker tag $build_tag $build_tag_alias | docker push $build_tag_alias
+      - run: docker tag $run_tag $run_tag_alias | docker push $run_tag_alias
