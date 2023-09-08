@@ -18,6 +18,7 @@ jobs:
       dockerfile_build: Dockerfile.build
       dockerfile_run: Dockerfile.run
       build_tag: ghcr.io/fagiani/cnb/heroku-16:build
+      builder_tag: ghcr.io/fagiani/cnb/heroku-16:builder
       run_tag: ghcr.io/fagiani/cnb/heroku-16:run
       build_file: pack-16-build.tar
       run_file: pack-16-run.tar
@@ -42,7 +43,7 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create $run_tag --config $builder.toml --pull-policy always && break
+              pack builder create $builder_tag --config $builder.toml --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
