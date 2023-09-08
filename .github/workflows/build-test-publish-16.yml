@@ -18,7 +18,7 @@ jobs:
       dockerfile_build: Dockerfile.build
       dockerfile_run: Dockerfile.run
       build_tag: ghcr.io/fagiani/cnb/heroku-16:build
-      builder_tag: ghcr.io/fagiani/cnb/heroku-16:builder
+      run_tag: ghcr.io/fagiani/cnb/heroku-16:run
       build_file: pack-16-build.tar
       run_file: pack-16-run.tar
       image_file: buildpacks-16.tar
@@ -32,9 +32,9 @@ jobs:
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - run: mkdir /tmp/workspace
       - run: docker build -f $dockerfile_build --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $build_tag .
-      - run: docker build -f $dockerfile_run --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $builder_tag .
+      - run: docker build -f $dockerfile_run --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $run_tag .
       - run: docker save $build_tag > /tmp/workspace/$build_file
-      - run: docker save $builder_tag > /tmp/workspace/$run_file
+      - run: docker save $run_tag > /tmp/workspace/$run_file
       - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
       - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
       - name: Create builder with retries
@@ -42,11 +42,11 @@ jobs:
             n=1
             until [ "$n" -ge 5 ]
             do
-              pack builder create $builder_tag --config $builder.toml --pull-policy always && break
+              pack builder create $run_tag --config $builder.toml --pull-policy always && break
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save $builder_tag > /tmp/workspace/$image_file
+      - run: docker save $run_tag > /tmp/workspace/$image_file
       - uses: actions/upload-artifact@v3
         with:
           name: entrypoint
