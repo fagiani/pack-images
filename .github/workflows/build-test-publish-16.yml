@@ -47,7 +47,7 @@ jobs:
               n=$((n + 1))
               sleep $(($n * 2))
             done
-      - run: docker save $run_tag > /tmp/workspace/$image_file
+      - run: docker save $builder_tag > /tmp/workspace/$image_file
       - uses: actions/upload-artifact@v3
         with:
           name: entrypoint
