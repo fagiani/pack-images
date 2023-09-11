@@ -63,14 +63,18 @@ jobs:
       fail-fast: false
       matrix:
         builder: ["buildpacks-16"]
-        language: ["java", "go", "node-js", "php", "python", "ruby", "typescript"]
+        language: ["go", "node-js", "php", "python", "ruby", "typescript"]
+        commits: ["b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b", "15b9ad2f2fb7e8cc67bb29cc469171d201688f59", "9e1f03e1eb46dda9b5073e96cf224d75a4f42398", "e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d", "b5fead0ea0ec60198ff029f5ba5c69e211b67038"]
     steps:
       - uses: actions/download-artifact@v3
         with:
           name: entrypoint
           path: /tmp/workspace/
+      - name: Specific git checkout to Typescript 
+        if: ${{ matrix.language }} == 'typescript'
+        run: cd getting_started && git checkout main && cd -
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
-      - run: cd getting_started && git checkout main && cd -
+      - run: cd getting_started && git checkout ${{ matrix.commits }} && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - run: docker load < /tmp/workspace/pack-$stack_tag-build.tar
       - run: docker load < /tmp/workspace/pack-$stack_tag-run.tar
