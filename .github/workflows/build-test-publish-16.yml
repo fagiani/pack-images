@@ -60,7 +60,7 @@ jobs:
       stack_tag: 16
       pack_env: BUILDPACK_S3_BASE_URL=https://heroku-legacy-redirects.vercel.app
       commit_id_go: b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b
-      commit_id_node: 15b9ad2f2fb7e8cc67bb29cc469171d201688f59
+      commit_id_node-js: 15b9ad2f2fb7e8cc67bb29cc469171d201688f59
       commit_id_php: 9e1f03e1eb46dda9b5073e96cf224d75a4f42398
       commit_id_python: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
       commit_id_ruby: b5fead0ea0ec60198ff029f5ba5c69e211b67038
