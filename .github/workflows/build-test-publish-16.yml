@@ -92,8 +92,8 @@ jobs:
       - name: Modify runtime.txt to Python language
         if: matrix.language == 'python'
         run: |
-            echo "python-3.7.8" > runtime.txt
-            cat runtime.txt 
+            echo "python-3.7.8" > getting_started/runtime.txt
+            cat getting_started/runtime.txt 
             pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
       - name: Run default pack build
         if: matrix.language != 'python'
