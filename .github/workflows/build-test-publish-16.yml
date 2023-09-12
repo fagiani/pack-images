@@ -76,12 +76,17 @@ jobs:
           path: /tmp/workspace/
       - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
       - name: Specific git checkout to Typescript 
-        if: ${{ matrix.language }} == 'typescript'
+        if: matrix.language == 'typescript'
         run: cd getting_started && git checkout main && cd -
-      - name: Modify runtime.txt (fix for Heroku-18 stack)
+      - name: Specific git checkout to Node JS 
+        if: matrix.language == 'node-js'
+        run: cd getting_started && git checkout $commit_id_node_js && cd -
+      - name: Modify runtime.txt
         if: matrix.language == 'python'
         run: echo "python-3.7.8" > runtime.txt
-      - run: cd getting_started && git checkout $commit_id_${${{ matrix.language }}//-/_} && cd -
+      - name: Default git checkout 
+        if: ${{ matrix.language }} != 'node-js' && ${{ matrix.language }} != 'typescript'
+        run: cd getting_started && git checkout $commit_id_${{ matrix.language }} && cd -
       - uses: buildpacks/github-actions/setup-pack@v5.1.0
       - run: docker load < /tmp/workspace/pack-$stack_tag-build.tar
       - run: docker load < /tmp/workspace/pack-$stack_tag-run.tar
