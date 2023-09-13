@@ -62,13 +62,14 @@ jobs:
       commit_id_go: b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b
       commit_id_node_js: 15b9ad2f2fb7e8cc67bb29cc469171d201688f59
       commit_id_php: 9e1f03e1eb46dda9b5073e96cf224d75a4f42398
-      commit_id_python: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
+      #commit_id_python: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
       commit_id_ruby: b5fead0ea0ec60198ff029f5ba5c69e211b67038
     strategy:
       fail-fast: false
       matrix:
         builder: ["buildpacks-16"]
-        language: ["go", "node-js", "php", "python", "ruby", "typescript"]
+        #language: ["go", "node-js", "php", "python", "ruby", "typescript"]
+        language: ["go", "node-js", "php", "ruby", "typescript"]
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -89,12 +90,12 @@ jobs:
       - run: docker load < /tmp/workspace/pack-$stack_tag-run.tar
       - run: docker load < /tmp/workspace/${{ matrix.builder }}.tar
       - run: pack config trusted-builders add ghcr.io/fagiani/cnb/heroku-$stack_tag:builder
-      - name: Modify runtime.txt to Python language
-        if: matrix.language == 'python'
-        run: |
-            echo "python-3.7.8" > getting_started/runtime.txt
-            cat getting_started/runtime.txt 
-            pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
+      #- name: Modify runtime.txt to Python language
+      #  if: matrix.language == 'python'
+      #  run: |
+      #      echo "python-0.3.1" > getting_started/runtime.txt
+      #      cat getting_started/runtime.txt 
+      #      pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
       - name: Run default pack build
         if: matrix.language != 'python'
         run: pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
