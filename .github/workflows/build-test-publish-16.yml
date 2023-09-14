@@ -1,0 +1,134 @@
+name: Build, Test, Publish
+
+on:
+  pull_request:
+  push:
+    branches: master
+  schedule:
+    - cron: '0 0 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  create:
+    runs-on: ubuntu-22.04
+    env:
+      dockerfile_build: Dockerfile.build
+      dockerfile_run: Dockerfile.run
+      build_tag: ghcr.io/fagiani/cnb/heroku-16:build
+      builder_tag: ghcr.io/fagiani/cnb/heroku-16:builder
+      run_tag: ghcr.io/fagiani/cnb/heroku-16:run
+      build_file: pack-16-build.tar
+      run_file: pack-16-run.tar
+      image_file: buildpacks-16.tar
+      stack_name: heroku-16
+      base_image: heroku/heroku:16-build
+      builder: builder-16
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - run: mkdir /tmp/workspace
+      - run: docker build -f $dockerfile_build --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $build_tag .
+      - run: docker build -f $dockerfile_run --build-arg STACK=$stack_name --build-arg BASE_IMAGE=$base_image -t $run_tag .
+      - run: docker save $build_tag > /tmp/workspace/$build_file
+      - run: docker save $run_tag > /tmp/workspace/$run_file
+      - run: docker load < $(ls /tmp/workspace/pack-*-build.tar | head -1)
+      - run: docker load < $(ls /tmp/workspace/pack-*-run.tar | head -1)
+      - name: Create builder with retries
+        run: |
+            n=1
+            until [ "$n" -ge 5 ]
+            do
+              pack builder create $builder_tag --config $builder.toml --pull-policy always && break
+              n=$((n + 1))
+              sleep $(($n * 2))
+            done
+      - run: docker save $builder_tag > /tmp/workspace/$image_file
+      - uses: actions/upload-artifact@v3
+        with:
+          name: entrypoint
+          path: /tmp/workspace/
+
+  test-guides:
+    runs-on: ubuntu-22.04
+    needs: [create]
+    env:
+      stack_tag: 16
+      pack_env: BUILDPACK_S3_BASE_URL=https://heroku-legacy-redirects.vercel.app
+      commit_id_go: b7ec67bd83f10ee6823e0b13b2962ecfd3e7bd7b
+      commit_id_node_js: 15b9ad2f2fb7e8cc67bb29cc469171d201688f59
+      commit_id_php: 9e1f03e1eb46dda9b5073e96cf224d75a4f42398
+      #commit_id_python: e8ecbc00f6f2e99ef34157bcf6bfbabf9720756d
+      commit_id_ruby: b5fead0ea0ec60198ff029f5ba5c69e211b67038
+    strategy:
+      fail-fast: false
+      matrix:
+        builder: ["buildpacks-16"]
+        #language: ["go", "node-js", "php", "python", "ruby", "typescript"]
+        language: ["go", "node-js", "php", "ruby", "typescript"]
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: entrypoint
+          path: /tmp/workspace/
+      - run: git clone https://github.com/heroku/${{ matrix.language }}-getting-started.git getting_started
+      - name: Specific git checkout to Typescript 
+        if: matrix.language == 'typescript'
+        run: cd getting_started && git checkout main && cd -
+      - name: Specific git checkout to Node JS 
+        if: matrix.language == 'node-js'
+        run: cd getting_started && git checkout $commit_id_node_js && cd -
+      - name: Default git checkout 
+        if: matrix.language != 'node-js' && matrix.language != 'typescript'
+        run: cd getting_started && git checkout $commit_id_${{ matrix.language }} && cd -
+      - uses: buildpacks/github-actions/setup-pack@v5.1.0
+      - run: docker load < /tmp/workspace/pack-$stack_tag-build.tar
+      - run: docker load < /tmp/workspace/pack-$stack_tag-run.tar
+      - run: docker load < /tmp/workspace/${{ matrix.builder }}.tar
+      - run: pack config trusted-builders add ghcr.io/fagiani/cnb/heroku-$stack_tag:builder
+      #- name: Modify runtime.txt to Python language
+      #  if: matrix.language == 'python'
+      #  run: |
+      #      echo "python-0.3.1" > getting_started/runtime.txt
+      #      cat getting_started/runtime.txt 
+      #      pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
+      - name: Run default pack build
+        if: matrix.language != 'python'
+        run: pack build pack-getting-started -e $pack_env -e BUNDLE_VERBOSE=1 --path getting_started --builder ghcr.io/fagiani/cnb/heroku-$stack_tag:builder --pull-policy never --verbose --clear-cache
+      - run: docker run --name getting-started -d -e PORT=8080 pack-getting-started
+      - run: sleep 5
+      - run: docker exec getting-started true 2>/dev/null || (echo not running && docker logs getting-started && exit 1)
+      
+  publish:
+    runs-on: ubuntu-22.04
+    env:
+      build_file: pack-16-build.tar
+      run_file: pack-16-run.tar
+      build_tag: ghcr.io/fagiani/cnb/heroku-16:build
+      run_tag: ghcr.io/fagiani/cnb/heroku-16:run
+      build_tag_alias: fagiani/pack:16-build
+      run_tag_alias: fagiani/pack:16
+    if: success() && github.ref == 'refs/heads/master'
+    needs:
+      - test-guides
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Docker steps to push the image
+        uses: actions/download-artifact@v3
+        with:
+          name: Workspace
+          path: /tmp/workspace
+      - run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin 
+      - name: Log into additional registry
+        run: echo "${{ secrets.REGISTRY_TOKEN }}" | docker login ${{ secrets.REGISTRY_HOST }} -u "${{ secrets.REGISTRY_USER }}" --password-stdin
+      - run: docker load < /tmp/workspace/$build_file
+      - run: docker load < /tmp/workspace/$run_file
+      - run: docker push $build_tag
+      - run: docker push $run_tag
+      - run: docker tag $build_tag $build_tag_alias | docker push $build_tag_alias
+      - run: docker tag $run_tag $run_tag_alias | docker push $run_tag_alias
